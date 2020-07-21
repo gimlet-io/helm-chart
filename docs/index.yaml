@@ -3,12 +3,12 @@ entries:
   Gimlet:
   - apiVersion: v2
     appVersion: v0.16.0
-    created: "2020-07-21T15:27:00.782872653+02:00"
+    created: "2020-07-21T15:58:20.132891653+02:00"
     description: A Helm chart for Kubernetes
     digest: 22da5775bb0248625fd15e5048a287c8e64ded3a041cca88ffb337d472fe3b22
     name: Gimlet
     type: application
     urls:
-    - https://gimlet-io.github.com/helm-chart/Gimlet-0.1.0.tgz
+    - https://gimlet-io.github.io/helm-chart/Gimlet-0.1.0.tgz
     version: 0.1.0
-generated: "2020-07-21T15:27:00.781911535+02:00"
+generated: "2020-07-21T15:58:20.132445072+02:00"
