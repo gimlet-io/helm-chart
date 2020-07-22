@@ -74,7 +74,7 @@ spec:
       volumes:
         - name: gimlet-storage
           persistentVolumeClaim:
-            claimName: gimlet
+            claimName: {{ include "helm-chart.fullname" . }}
         {{- with .Values.config.bitbucketServer }}
         - name: bitbucket-privatekey
           secret:
