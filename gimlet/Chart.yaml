@@ -1,5 +1,5 @@
 apiVersion: v2
-name: Gimlet
+name: gimlet
 description: A Helm chart for self-hosted Gimlet.io
 
 # A chart can be either an 'application' or a 'library' chart.
