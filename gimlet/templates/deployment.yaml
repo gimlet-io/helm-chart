@@ -35,6 +35,10 @@ spec:
           envFrom:
             - configMapRef:
                 name: {{ include "helm-chart.fullname" . }}
+            {{- with .Values.config.bitbucketServer }}
+            - secretRef:
+                name: gimlet-bitbucket
+            {{- end }}
           ports:
             - name: http
               containerPort: 28000
