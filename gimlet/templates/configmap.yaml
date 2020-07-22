@@ -1,0 +1,18 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: {{ include "helm-chart.fullname" . }}
+  namespace: {{ .Release.Namespace }}
+  labels:
+    {{- include "helm-chart.labels" . | nindent 4 }}
+data:
+  GIN_MODE: "release"
+  HOST: {{ .Values.config.host | quote }}
+  DEBUG: {{ .Values.config.debug | quote }}
+  {{- with .Values.config.bitbucketServer }}
+  BITBUCKET_SERVER_ADDRESS: {{ .serverAddress | quote }}
+  BITBUCKET_SERVER_CONSUMER_KEY: {{ .consumerKey | default "OauthKey" | quote }}
+  BITBUCKET_SERVER_PRIVATE_KEY: {{ .privateKey | default "/var/lib/gimlet/bitbucket/bitbucket.pem" | quote }}
+  BITBUCKET_SERVER_SKIP_VERIFY: {{ .skipVerify | default false | quote }}
+  BITBUCKET_SERVER_DEBUG: {{ .debug | default false | quote  }}
+  {{- end }}

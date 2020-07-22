@@ -2,21 +2,21 @@ apiVersion: apps/v1
 kind: Deployment
 metadata:
   name: {{ include "helm-chart.fullname" . }}
+  namespace: {{ .Release.Namespace }}
   labels:
     {{- include "helm-chart.labels" . | nindent 4 }}
 spec:
-{{- if not .Values.autoscaling.enabled }}
-  replicas: {{ .Values.replicaCount }}
-{{- end }}
+  replicas: 1
   selector:
     matchLabels:
       {{- include "helm-chart.selectorLabels" . | nindent 6 }}
   template:
     metadata:
-    {{- with .Values.podAnnotations }}
       annotations:
-        {{- toYaml . | nindent 8 }}
-    {{- end }}
+        checksum/config: {{ include (print $.Template.BasePath "/configmap.yaml") . | sha256sum }}
+        {{- with .Values.podAnnotations }}
+          {{- toYaml . | nindent 8 }}
+        {{- end }}
       labels:
         {{- include "helm-chart.selectorLabels" . | nindent 8 }}
     spec:
@@ -24,7 +24,6 @@ spec:
       imagePullSecrets:
         {{- toYaml . | nindent 8 }}
       {{- end }}
-      serviceAccountName: {{ include "helm-chart.serviceAccountName" . }}
       securityContext:
         {{- toYaml .Values.podSecurityContext | nindent 8 }}
       containers:
@@ -33,20 +32,50 @@ spec:
             {{- toYaml .Values.securityContext | nindent 12 }}
           image: "{{ .Values.image.repository }}:{{ .Values.image.tag | default .Chart.AppVersion }}"
           imagePullPolicy: {{ .Values.image.pullPolicy }}
+          envFrom:
+            - configMapRef:
+                name: {{ include "helm-chart.fullname" . }}
           ports:
             - name: http
-              containerPort: 80
+              containerPort: 28000
               protocol: TCP
           livenessProbe:
+            failureThreshold: 3
             httpGet:
-              path: /
-              port: http
+              path: /ping
+              port: 28000
+              scheme: HTTP
+            initialDelaySeconds: 3
+            periodSeconds: 10
+            successThreshold: 1
+            timeoutSeconds: 3
           readinessProbe:
+            failureThreshold: 3
             httpGet:
-              path: /
-              port: http
+              path: /ping
+              port: 28000
+              scheme: HTTP
+            periodSeconds: 10
+            successThreshold: 1
+            timeoutSeconds: 10
+          volumeMounts:
+            - name: gimlet-storage
+              mountPath: /var/lib/gimlet/data
+            {{- with .Values.config.bitbucketServer }}
+            - name: bitbucket-privatekey
+              mountPath: /var/lib/gimlet/bitbucket
+            {{- end }}
           resources:
             {{- toYaml .Values.resources | nindent 12 }}
+      volumes:
+        - name: gimlet-storage
+          persistentVolumeClaim:
+            claimName: gimlet
+        {{- with .Values.config.bitbucketServer }}
+        - name: bitbucket-privatekey
+          secret:
+            secretName: gimlet-bitbucket-privatekey
+        {{- end }}
       {{- with .Values.nodeSelector }}
       nodeSelector:
         {{- toYaml . | nindent 8 }}
