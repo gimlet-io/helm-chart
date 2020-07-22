@@ -59,3 +59,4 @@ affinity: {}
 
 config:
   debug: true
+  trace: false

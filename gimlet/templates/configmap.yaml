@@ -9,6 +9,7 @@ data:
   GIN_MODE: "release"
   HOST: {{ .Values.config.host | quote }}
   DEBUG: {{ .Values.config.debug | quote }}
+  TRACE: {{ .Values.config.trace | quote }}
   {{- with .Values.config.bitbucketServer }}
   BITBUCKET_SERVER_ADDRESS: {{ .serverAddress | quote }}
   BITBUCKET_SERVER_CONSUMER_KEY: {{ .consumerKey | default "OauthKey" | quote }}
