@@ -2,10 +2,10 @@ apiVersion: v1
 entries:
   gimlet:
   - apiVersion: v2
-    appVersion: v0.16.2
-    created: "2020-07-24T09:37:22.577349161+02:00"
+    appVersion: v0.17.0
+    created: "2020-07-29T11:22:26.866779613+02:00"
     description: A Helm chart for self-hosted Gimlet.io
-    digest: d0a340ead0e1026a44a15432b4dfb13b7b63d8aa781db388bf97acb83e55108b
+    digest: 2550d166cbf09ebaee07ec1d826419dd19fb7bf933bb46f44d62ea68515f5d9b
     name: gimlet
     type: application
     urls:
@@ -13,7 +13,7 @@ entries:
     version: 0.1.1
   - apiVersion: v2
     appVersion: v0.16.1
-    created: "2020-07-24T09:37:22.57699253+02:00"
+    created: "2020-07-29T11:22:26.866431598+02:00"
     description: A Helm chart for self-hosted Gimlet.io
     digest: 2d0bf4e347356288813ffaaaf3f61ac34eee2540a5c71d99cea16d2c62be9e9d
     name: gimlet
@@ -21,4 +21,4 @@ entries:
     urls:
     - https://gimlet-io.github.io/helm-chart/gimlet-0.1.0.tgz
     version: 0.1.0
-generated: "2020-07-24T09:37:22.575355203+02:00"
+generated: "2020-07-29T11:22:26.865862936+02:00"
